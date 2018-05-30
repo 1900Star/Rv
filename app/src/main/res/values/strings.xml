@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">RecyclerViewDemo</string>
+    <string name="divideLine">分 隔 符</string>
+    <string name="shoppingList">购物清单</string>
+    <string name="goods">goods</string>
+    <string name="commit">结算</string>
+</resources>
