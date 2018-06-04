@@ -53,14 +53,20 @@ public class MyAdapterTest extends BaseRvAdapter<Beans> {
             HolderC holderC = (HolderC) holder;
             BannerView bannerView = holderC.mBannerView;
             if (bannerView != null) {
-                bannerView.setData(mList.get(position).getImageList());
+                bannerView.setData(beans.getImageList());
             }
         } else if (holder instanceof HolderA) {
             HolderA holderA = (HolderA) holder;
-            holderA.mInfoView.setData(mList.get(position).getImageList());
+            InfoView infoView = holderA.mInfoView;
+            if (infoView != null) {
+                infoView.setData(beans.getImageList());
+            }
         } else if (holder instanceof HolderB) {
             HolderB holderB = (HolderB) holder;
-            holderB.mContentView.setData(mList.get(position).getImageList());
+            ContentView contentView = holderB.mContentView;
+            if (contentView != null) {
+                holderB.mContentView.setData(beans.getImageList());
+            }
 
 
         }

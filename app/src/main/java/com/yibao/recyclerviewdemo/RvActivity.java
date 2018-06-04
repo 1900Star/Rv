@@ -52,8 +52,8 @@ public class RvActivity extends AppCompatActivity implements SwipeRefreshLayout.
             beans.setImageList(getImageList(type));
             list.add(beans);
         }
-        MyAdapter myAdapter = new MyAdapter(this, list);
-//        MyAdapterTest myAdapter = new MyAdapterTest(this, list);
+//        MyAdapter myAdapter = new MyAdapter(this, list);
+        MyAdapterTest myAdapter = new MyAdapterTest(this, list);
         mRv.setLayoutManager(new LinearLayoutManager(this));
         mRv.setAdapter(myAdapter);
         myAdapter.notifyDataSetChanged();
