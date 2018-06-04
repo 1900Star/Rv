@@ -31,19 +31,17 @@ public class MyAdapterTest extends BaseRvAdapter<Beans> {
     }
 
     @Override
-    protected RecyclerView.ViewHolder getViewHolder(View view, int viewType) {
-//        for (int i = 1; i < mList.size(); i++) {
-//        }
-            if (viewType == 1) {
-                holder = new HolderC(view);
+    protected RecyclerView.ViewHolder getViewHolder(View view, Beans beans) {
+        if (beans.getItemType() == 1) {
+            holder = new HolderC(view);
 
-            } else if (viewType == 2) {
-                holder = new HolderA(view);
+        } else if (beans.getItemType() == 2) {
+            holder = new HolderA(view);
 
-            } else if (viewType == 3) {
-                holder = new HolderB(view);
+        } else if (beans.getItemType() == 3) {
+            holder = new HolderB(view);
 
-            }
+        }
         return holder;
     }
 
@@ -70,20 +68,20 @@ public class MyAdapterTest extends BaseRvAdapter<Beans> {
 
 
     @Override
-    protected int getLayoutId(int songType) {
+    protected int getLayoutId(Beans songType) {
         int layoutId = 0;
         for (int i = 1; i < mList.size(); i++) {
         }
-            if (songType == 1) {
-                layoutId = R.layout.a_view;
+        if (songType.getItemType() == 1) {
+            layoutId = R.layout.a_view;
 
-            } else if (songType == 2) {
-                layoutId = R.layout.b_view;
+        } else if (songType.getItemType() == 2) {
+            layoutId = R.layout.b_view;
 
-            } else if (songType == 3) {
+        } else if (songType.getItemType() == 3) {
 
-                layoutId = R.layout.c_view;
-            }
+            layoutId = R.layout.c_view;
+        }
         return layoutId;
     }
 

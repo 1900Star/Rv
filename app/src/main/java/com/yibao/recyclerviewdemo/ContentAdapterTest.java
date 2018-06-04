@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.yibao.recyclerviewdemo.adapter.BaseRvAdapter;
@@ -38,7 +39,7 @@ public class ContentAdapterTest extends BaseRvAdapter<String> {
     }
 
     @Override
-    protected RecyclerView.ViewHolder getViewHolder(View view, int type) {
+    protected RecyclerView.ViewHolder getViewHolder(View view, String type) {
         return new Holder(view);
     }
 
@@ -48,7 +49,7 @@ public class ContentAdapterTest extends BaseRvAdapter<String> {
     }
 
     @Override
-    protected int getLayoutId(int songType) {
+    protected int getLayoutId(String songType) {
         return R.layout.b_tiem;
     }
 

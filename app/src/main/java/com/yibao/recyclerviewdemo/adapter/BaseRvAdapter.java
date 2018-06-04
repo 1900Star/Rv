@@ -33,6 +33,8 @@ public abstract class BaseRvAdapter<T>
     private OnItemListener<T> mListener;
     private ItemLongClickListener mLongClickListener;
     private RecyclerView.ViewHolder mHolder;
+    private int mSongType = 0;
+    private T mT;
 
     public BaseRvAdapter(Context context, List<T> list) {
         mContext = context;
@@ -57,16 +59,17 @@ public abstract class BaseRvAdapter<T>
         return mHolder;
     }
 
-    private int getSongType() {
-        int songType = 0;
-        if (songType < mList.size()) {
-            songType++;
+    private T getSongType() {
+        if (mSongType < mList.size()) {
+            mT = mList.get(mSongType);
+            mSongType++;
         }
-        return songType;
+        return mT;
     }
+
     @Override
     public int getItemCount() {
-        return mList != null ? mList.size(): 0;
+        return mList != null ? mList.size() : 0;
     }
 
 
@@ -84,12 +87,9 @@ public abstract class BaseRvAdapter<T>
             ((LoadMoreHolder) holder).mTextView.setText("正在加载更多...");
 
         } else {
-            if (position % 2 == 0) {
-                bindView(holder, mList.get(0));
 
-            } else {
-
-                bindView(holder, mList.get(1));
+            if (position < mList.size()) {
+                bindView(holder, mList.get(position));
             }
         }
     }
@@ -117,7 +117,7 @@ public abstract class BaseRvAdapter<T>
      * @param viewType
      * @return d
      */
-    protected abstract RecyclerView.ViewHolder getViewHolder(View view, int viewType);
+    protected abstract RecyclerView.ViewHolder getViewHolder(View view, T viewType);
 
 
     /**
@@ -125,7 +125,7 @@ public abstract class BaseRvAdapter<T>
      *
      * @return r
      */
-    protected abstract int getLayoutId(int songType);
+    protected abstract int getLayoutId(T songType);
 
     public void clear() {
         mList.clear();
