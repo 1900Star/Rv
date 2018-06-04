@@ -2,13 +2,14 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/colorA"
+    android:background="@color/colorAccent"
    android:layout_margin="5dp"
     android:orientation="vertical">
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="170dp"
+        android:id="@+id/iv_top"
         android:scaleType="fitXY"
         android:src="@mipmap/a" />
 
@@ -19,15 +20,17 @@
 
         <ImageView
             android:layout_width="0dp"
+            android:id="@+id/iv_left"
             android:layout_height="150dp"
             android:layout_weight="1"
-            android:src="@mipmap/ic_launcher" />
+            android:src="@mipmap/a" />
 
         <ImageView
+            android:id="@+id/iv_right"
             android:layout_width="0dp"
             android:layout_height="150dp"
             android:layout_weight="1"
-            android:src="@mipmap/ic_launcher" />
+            android:src="@mipmap/a" />
 
     </LinearLayout>
 
@@ -35,7 +38,7 @@
         android:layout_width="match_parent"
         android:layout_height="55dp"
         android:visibility="visible"
-        android:background="@color/colorAccent"
+
         android:gravity="center"
         android:text="@string/shoppingList" />
 

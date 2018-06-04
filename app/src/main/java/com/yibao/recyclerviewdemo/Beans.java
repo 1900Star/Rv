@@ -1,5 +1,7 @@
 package com.yibao.recyclerviewdemo;
 
+import java.util.List;
+
 /**
  * @ Author: Luoshipeng
  * @ Name:   Beans
@@ -9,6 +11,16 @@ package com.yibao.recyclerviewdemo;
  */
 public class Beans {
     private int itemType;
+
+    public List<String> getImageList() {
+        return imageList;
+    }
+
+    public void setImageList(List<String> imageList) {
+        this.imageList = imageList;
+    }
+
+    private List<String> imageList;
 
     public int getItemType() {
         return itemType;
