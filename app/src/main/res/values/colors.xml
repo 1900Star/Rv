@@ -8,5 +8,6 @@
     <color name="colorDark">#666464</color>
     <color name="transparent">#00000000</color>
     <color name="colorC">#c7c5c6</color>
+    <color name="white">#ffffff</color>
     <color name="colorG">#ccf593</color>
 </resources>

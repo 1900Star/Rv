@@ -2,6 +2,7 @@ package com.yibao.recyclerviewdemo.activity;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -12,6 +13,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.yibao.recyclerviewdemo.R;
@@ -52,6 +54,7 @@ public class ScrollActivity extends AppCompatActivity implements SwipeRefreshLay
     private SwipeRefreshLayout mRefreshLayout;
     private CompositeDisposable mCompositeDisposable;
     private MyGridViewAdapter mGridViewAdapter;
+    private TextView mTvTitle;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -67,18 +70,6 @@ public class ScrollActivity extends AppCompatActivity implements SwipeRefreshLay
 
     private void initListener() {
         mRefreshLayout.setOnRefreshListener(this);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            mScrollView.setOnScrollChangeListener(new View.OnScrollChangeListener() {
-                @Override
-                public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-                    mLlTitle.setAlpha(scrollY >= 165 ? 1 : 0);
-                    mLlTitle.setVisibility(scrollY >= 165 ? View.VISIBLE : View.GONE);
-
-                    LogUtil.d(TAG, " scrollB==========  " + scrollY);
-                    LogUtil.d(TAG, " titleHeight======  " + mLlTitle.getHeight());
-                }
-            });
-        }
         mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -188,11 +179,13 @@ public class ScrollActivity extends AppCompatActivity implements SwipeRefreshLay
     private void initView() {
         mRefreshLayout = findViewById(R.id.swiperefresh);
         mScrollBannerView = findViewById(R.id.scroll_banner_view);
+        mTvTitle = findViewById(R.id.tv_title);
         mScrollInfoView = findViewById(R.id.scroll_info_view);
         mGridView = findViewById(R.id.grid_view);
         mSrollContentView = findViewById(R.id.sroll_content_view);
         mScrollView = findViewById(R.id.sv);
         mLlTitle = findViewById(R.id.ll_title);
+        mScrollView.setTitleAndHead(mLlTitle,mTvTitle);
         mGridViewParams = (LinearLayout.LayoutParams) mGridView.getLayoutParams();
         mRefreshLayout.setRefreshing(true);
 

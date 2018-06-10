@@ -89,12 +89,14 @@
             android:layout_gravity="top"
             android:background="#fff"
             android:orientation="horizontal"
-            android:visibility="invisible">
+            android:visibility="visible">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
+                android:id="@+id/tv_title"
+                android:visibility="invisible"
                 android:layout_margin="5dp"
                 android:text="产品"
                 android:textColor="@color/colorDark"
