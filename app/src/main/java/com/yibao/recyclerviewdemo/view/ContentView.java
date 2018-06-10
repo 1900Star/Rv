@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.yibao.recyclerviewdemo.ContentAdapter;
 import com.yibao.recyclerviewdemo.ContentAdapterTest;
 import com.yibao.recyclerviewdemo.R;
@@ -25,7 +26,6 @@ import java.util.List;
 public class ContentView extends LinearLayout {
 
 
-    private TextView mTitle;
     private RecyclerView mRecyclerView;
 
     public ContentView(Context context) {
@@ -36,12 +36,37 @@ public class ContentView extends LinearLayout {
     public ContentView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         View view = View.inflate(context, R.layout.content_view, this);
-        mTitle = view.findViewById(R.id.tv_title);
         mRecyclerView = view.findViewById(R.id.item_rv);
+        initListener();
+    }
+
+    private void initListener() {
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                switch (newState) {
+                    case RecyclerView.SCROLL_STATE_IDLE:
+                        Glide.with(getContext()).resumeRequests();
+                        break;
+                    // 加载图片
+                    case RecyclerView.SCROLL_STATE_DRAGGING:
+                    case RecyclerView.SCROLL_STATE_SETTLING:
+                        Glide.with(getContext()).pauseRequests();
+                        break;
+
+                    default:
+                        break;
+                }
+
+
+            }
+
+
+        });
+
     }
 
     public void setData(List<String> list) {
-        mTitle.setText("热闹标题");
 //        ContentAdapter contentAdapter = new ContentAdapter(getContext(), list);
         ContentAdapterTest contentAdapter = new ContentAdapterTest(getContext(), list);
         GridLayoutManager manager = new GridLayoutManager(getContext(), 2);

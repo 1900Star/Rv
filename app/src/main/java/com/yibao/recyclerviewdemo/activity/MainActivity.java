@@ -1,9 +1,12 @@
-package com.yibao.recyclerviewdemo;
+package com.yibao.recyclerviewdemo.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+
+import com.yibao.recyclerviewdemo.Adapters;
+import com.yibao.recyclerviewdemo.R;
 
 public class MainActivity extends AppCompatActivity {
 

@@ -1,4 +1,4 @@
-package com.yibao.recyclerviewdemo;
+package com.yibao.recyclerviewdemo.bean;
 
 import java.util.List;
 
@@ -11,6 +11,16 @@ import java.util.List;
  */
 public class Beans {
     private int itemType;
+    private List<String> imageList;
+    private List<String> contentList;
+
+    public List<String> getContentList() {
+        return contentList;
+    }
+
+    public void setContentList(List<String> contentList) {
+        this.contentList = contentList;
+    }
 
     public List<String> getImageList() {
         return imageList;
@@ -20,7 +30,6 @@ public class Beans {
         this.imageList = imageList;
     }
 
-    private List<String> imageList;
 
     public int getItemType() {
         return itemType;

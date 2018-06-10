@@ -21,7 +21,7 @@ import java.util.List;
  * @ Time:   2018/6/4/ 23:27
  * @ Des:    //TODO
  */
-public class InfoView extends LinearLayout {
+public class InfoView extends LinearLayout implements View.OnClickListener {
 
     private ImageView mTopView, mLeftView, mRightView;
 
@@ -36,13 +36,31 @@ public class InfoView extends LinearLayout {
         mTopView = view.findViewById(R.id.iv_top);
         mLeftView = view.findViewById(R.id.iv_left);
         mRightView = view.findViewById(R.id.iv_right);
+        mTopView.setOnClickListener(this);
+        mLeftView.setOnClickListener(this);
+        mRightView.setOnClickListener(this);
     }
 
     public void setData(List<String> list) {
         Glide.with(getContext()).load(list.get(0)).asBitmap().into(mTopView);
         Glide.with(getContext()).load(list.get(1)).asBitmap().into(mLeftView);
-        Glide.with(getContext()).load(list.get(2)).asBitmap().error(R.mipmap.b).into(mRightView);
+        Glide.with(getContext()).load(list.get(2)).asBitmap().into(mRightView);
     }
 
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.iv_top:
+                System.out.println("11111111111111");
+                break;
+            case R.id.iv_left:
+                System.out.println("22222222222222");
+                break;
+            case R.id.iv_right:
+                System.out.println("3333333333333");
+                break;
+        }
+
+    }
 }

@@ -4,7 +4,7 @@ import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import com.yibao.recyclerviewdemo.Beans;
+import com.yibao.recyclerviewdemo.bean.Beans;
 import com.yibao.recyclerviewdemo.R;
 import com.yibao.recyclerviewdemo.view.BannerView;
 import com.yibao.recyclerviewdemo.view.ContentView;

@@ -2,18 +2,16 @@ package com.yibao.recyclerviewdemo.adapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.support.v4.view.ViewPager;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
-import com.yibao.recyclerviewdemo.Beans;
+import com.yibao.recyclerviewdemo.bean.Beans;
 import com.yibao.recyclerviewdemo.R;
 import com.yibao.recyclerviewdemo.view.BannerView;
 import com.yibao.recyclerviewdemo.view.ContentView;
+import com.yibao.recyclerviewdemo.view.FlagView;
 import com.yibao.recyclerviewdemo.view.InfoView;
 
 import java.util.List;
@@ -54,6 +52,10 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 holder = new HolderA(mView);
                 break;
             case 3:
+                mView = LayoutInflater.from(mContext).inflate(R.layout.d_view, parent, false);
+                holder = new HolderD(mView);
+                break;
+            case 4:
                 mView = LayoutInflater.from(mContext).inflate(R.layout.c_view, parent, false);
                 holder = new HolderB(mView);
                 break;
@@ -79,8 +81,11 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             holderA.mInfoView.setData(mList.get(position).getImageList());
         } else if (holder instanceof HolderB) {
             HolderB holderB = (HolderB) holder;
-            holderB.mContentView.setData(mList.get(position).getImageList());
+            holderB.mContentView.setData(mList.get(position).getContentList());
 
+        } else if (holder instanceof HolderD) {
+            HolderD holderD = (HolderD) holder;
+            holderD.mFlagView.setData();
 
         }
 
@@ -98,7 +103,7 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public int getItemCount() {
 //        System.out.println("=============getItemCount");
 
-        return 3;
+        return mList.size();
     }
 
     static class HolderC extends RecyclerView.ViewHolder {
@@ -107,6 +112,15 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         public HolderC(View itemView) {
             super(itemView);
             mBannerView = itemView.findViewById(R.id.banner_view);
+        }
+    }
+
+    static class HolderD extends RecyclerView.ViewHolder {
+        FlagView mFlagView;
+
+        public HolderD(View itemView) {
+            super(itemView);
+            mFlagView = itemView.findViewById(R.id.flag_view);
         }
     }
 

@@ -23,4 +23,12 @@ public class ExampleInstrumentedTest {
 
         assertEquals("com.yibao.recyclerviewdemo", appContext.getPackageName());
     }
+
+    @Test
+    public void getStr() {
+        String str = "#kk人中kkklkdk#11ddfdjkjkj ";
+        String jieguo = str.substring(0,str.lastIndexOf("#")+1);
+        assertNotNull(jieguo);
+
+    }
 }

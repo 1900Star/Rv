@@ -1,5 +1,6 @@
 package com.yibao.recyclerviewdemo.view;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
@@ -13,6 +14,12 @@ import com.yibao.recyclerviewdemo.adapter.MyPagerAdapter;
 import com.yibao.recyclerviewdemo.adapter.VpAdapter;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * @ Author: Luoshipeng
@@ -24,6 +31,7 @@ import java.util.List;
 public class BannerView extends LinearLayout {
 
     private ViewPager mVp;
+    private int num = 1;
 
     public BannerView(Context context) {
         this(context, null);
@@ -34,16 +42,26 @@ public class BannerView extends LinearLayout {
         initView(context);
     }
 
-
     private void initView(Context context) {
         View view = LayoutInflater.from(context).inflate(R.layout.item_vp, this, true);
         mVp = view.findViewById(R.id.vp);
     }
 
-    public void setData(List<String> list) {
+    @SuppressLint("CheckResult")
+    public void setData(final List<String> list) {
         MyPagerAdapter pagerAdapter = new MyPagerAdapter(getContext(), list);
         mVp.setAdapter(pagerAdapter);
         pagerAdapter.notifyDataSetChanged();
+        Observable.interval(2, TimeUnit.SECONDS).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<Long>() {
+            @Override
+            public void accept(Long aLong) {
+                num++;
+                if (num > list.size()) {
+                    num = 1;
+                }
+                mVp.setCurrentItem(num);
+            }
+        });
 
     }
 }

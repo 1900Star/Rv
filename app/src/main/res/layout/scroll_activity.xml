@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/swiperefresh"
+    android:background="#fff"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <com.yibao.recyclerviewdemo.view.MyScrollView
+            android:id="@+id/sv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="bottom"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <!--<FrameLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content">-->
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+
+                    <com.yibao.recyclerviewdemo.view.BannerView
+                        android:id="@+id/scroll_banner_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="150dp" />
+
+                    <com.yibao.recyclerviewdemo.view.InfoView
+                        android:id="@+id/scroll_info_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:text="这是标题"
+                        android:textColor="@color/colorDark"
+                        android:textSize="20sp" />
+
+                    <com.yibao.recyclerviewdemo.view.MyGridview
+                        android:id="@+id/grid_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_margin="5dp"
+                        android:background="@color/colorG"
+                        android:columnWidth="80dp"
+                        android:gravity="bottom"
+                        android:numColumns="4"
+                        android:stretchMode="spacingWidth"
+                        android:visibility="visible" />
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/rv_flag"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:visibility="gone" />
+                </LinearLayout>
+                <!--</FrameLayout>-->
+
+                <com.yibao.recyclerviewdemo.view.ContentView
+                    android:id="@+id/sroll_content_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+            </LinearLayout>
+        </com.yibao.recyclerviewdemo.view.MyScrollView>
+
+        <LinearLayout
+            android:id="@+id/ll_title"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_gravity="top"
+            android:background="#fff"
+            android:orientation="horizontal"
+            android:visibility="invisible">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_margin="5dp"
+                android:text="产品"
+                android:textColor="@color/colorDark"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+
+        </LinearLayout>
+
+    </FrameLayout>
+</android.support.v4.widget.SwipeRefreshLayout>
