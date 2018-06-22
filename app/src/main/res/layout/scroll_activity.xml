@@ -74,10 +74,16 @@
                         android:visibility="gone" />
                 </LinearLayout>
                 <!--</FrameLayout>-->
+                <com.yibao.recyclerviewdemo.widge.LabelPager
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:id="@+id/label_pager"
+                    android:layout_weight="1" />
 
                 <com.yibao.recyclerviewdemo.view.ContentView
                     android:id="@+id/sroll_content_view"
                     android:layout_width="match_parent"
+                    android:visibility="gone"
                     android:layout_height="0dp"
                     android:layout_weight="1" />
             </LinearLayout>
@@ -98,7 +104,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_margin="5dp"
-                android:text="产品"
+                android:text="@string/product_title"
                 android:textColor="@color/colorDark"
                 android:textSize="20sp"
                 android:textStyle="bold"

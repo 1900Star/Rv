@@ -18,6 +18,7 @@ import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
@@ -32,6 +33,7 @@ public class BannerView extends LinearLayout {
 
     private ViewPager mVp;
     private int num = 1;
+    private CompositeDisposable mDisposable;
 
     public BannerView(Context context) {
         this(context, null);
@@ -45,14 +47,16 @@ public class BannerView extends LinearLayout {
     private void initView(Context context) {
         View view = LayoutInflater.from(context).inflate(R.layout.item_vp, this, true);
         mVp = view.findViewById(R.id.vp);
+        mDisposable = new CompositeDisposable();
     }
 
     @SuppressLint("CheckResult")
     public void setData(final List<String> list) {
+        mDisposable.clear();
         MyPagerAdapter pagerAdapter = new MyPagerAdapter(getContext(), list);
         mVp.setAdapter(pagerAdapter);
         pagerAdapter.notifyDataSetChanged();
-        Observable.interval(2, TimeUnit.SECONDS).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<Long>() {
+        mDisposable.add(Observable.interval(2, TimeUnit.SECONDS).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<Long>() {
             @Override
             public void accept(Long aLong) {
                 num++;
@@ -61,7 +65,7 @@ public class BannerView extends LinearLayout {
                 }
                 mVp.setCurrentItem(num);
             }
-        });
+        }));
 
     }
 }

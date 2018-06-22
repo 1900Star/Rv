@@ -2,8 +2,6 @@ package com.yibao.recyclerviewdemo.activity;
 
 import android.content.Context;
 import android.content.res.Resources;
-import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -17,13 +15,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.yibao.recyclerviewdemo.R;
+import com.yibao.recyclerviewdemo.adapter.LabelPagerAdapter;
 import com.yibao.recyclerviewdemo.adapter.MyGridViewAdapter;
 import com.yibao.recyclerviewdemo.bean.UserInfo;
-import com.yibao.recyclerviewdemo.util.LogUtil;
 import com.yibao.recyclerviewdemo.view.BannerView;
 import com.yibao.recyclerviewdemo.view.ContentView;
 import com.yibao.recyclerviewdemo.view.InfoView;
 import com.yibao.recyclerviewdemo.view.MyScrollView;
+import com.yibao.recyclerviewdemo.widge.LabelPager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,6 +54,7 @@ public class ScrollActivity extends AppCompatActivity implements SwipeRefreshLay
     private CompositeDisposable mCompositeDisposable;
     private MyGridViewAdapter mGridViewAdapter;
     private TextView mTvTitle;
+    private LabelPager mLabelPager;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -73,8 +73,8 @@ public class ScrollActivity extends AppCompatActivity implements SwipeRefreshLay
         mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                LogUtil.d(TAG, "============     " + getUserInfo(1).get(position).getUserName());
+//                initData(position, position);
+                mLabelPager.setCurrentItem(position, false);
                 Toast.makeText(ScrollActivity.this, getUserInfo(1).get(position).getUserName(), Toast.LENGTH_SHORT).show();
 
             }
@@ -84,6 +84,7 @@ public class ScrollActivity extends AppCompatActivity implements SwipeRefreshLay
 
     @Override
     public void onRefresh() {
+        mCompositeDisposable.clear();
         mCompositeDisposable.add(Observable.timer(1, TimeUnit.SECONDS).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<Long>() {
             @Override
             public void accept(Long aLong) {
@@ -121,8 +122,9 @@ public class ScrollActivity extends AppCompatActivity implements SwipeRefreshLay
         mGridViewAdapter = new MyGridViewAdapter(this, getUserInfo(a));
         mGridView.setAdapter(mGridViewAdapter);
         // ContentView
-        mSrollContentView.setData(getContentList());
-        mRefreshLayout.setRefreshing(false);
+//        mSrollContentView.setData(getContentList(a));
+//        mRefreshLayout.setRefreshing(false);
+        mLabelPager.setAdapter(new LabelPagerAdapter(getSupportFragmentManager(), getUserInfo(1)));
 
         //避免自动滑动到底部
         mGridView.setFocusable(true);
@@ -130,7 +132,7 @@ public class ScrollActivity extends AppCompatActivity implements SwipeRefreshLay
         mGridView.requestFocus();
         //2.set height
 
-        mScrollView.resetHeight(mGridView, mSrollContentView, 165);
+        mScrollView.resetHeight(mGridView, mLabelPager, 165);
 
     }
 
@@ -149,27 +151,36 @@ public class ScrollActivity extends AppCompatActivity implements SwipeRefreshLay
     }
 
 
-    private List<String> getContentList() {
+    private List<String> getContentList(int type) {
         List<String> contentList = new ArrayList<>();
         for (int i = 1; i < 4; i++) {
-            String st = "http://imgsrc.baidu.com/image/c0%3Dpixel_huitu%2C0%2C0%2C294%2C40/sign=79d11a1f0224ab18f41be9775c8283a1/b64543a98226cffc35a0408bb2014a90f603ea05.jpg";
-            String s = "http://img.zcool.cn/community/01d71e554bb56b000001bf7274a240.jpg";
-            String str = "http://imgsrc.baidu.com/image/c0%3Dpixel_huitu%2C0%2C0%2C294%2C40/sign=91f762232334349b600b66c5a09270a2/30adcbef76094b36187598d4a8cc7cd98d109d20.jpg";
-            String ss = "http://imgsrc.baidu.com/imgad/pic/item/8cb1cb13495409234ab8a9449958d109b3de4933.jpg";
-            String dd = "http://pic.qiantucdn.com/58pic/26/22/21/58c8db915ebaa_1024.jpg";
-            String bb = "http://pic28.photophoto.cn/20130823/0035035065390036_b.jpg";
-            String cc = "http://imgsrc.baidu.com/image/c0%3Dshijue1%2C0%2C0%2C294%2C40/sign=55689fe7dd2a6059461de959405d5eee/242dd42a2834349b075c1dabc3ea15ce36d3be41.jpg";
-            String aa = "http://www.quimg.com/via/user/5_20160729122014654.jpg";
-            contentList.add(s);
-            contentList.add(st);
-            contentList.add(ss);
-            contentList.add(str);
-            contentList.add(ss);
-            contentList.add(dd);
-            contentList.add(bb);
-            contentList.add(cc);
-            contentList.add(ss);
-            contentList.add(aa);
+            if (type % 2 == 0) {
+                String st = "http://imgsrc.baidu.com/image/c0%3Dpixel_huitu%2C0%2C0%2C294%2C40/sign=79d11a1f0224ab18f41be9775c8283a1/b64543a98226cffc35a0408bb2014a90f603ea05.jpg";
+                String s = "http://img.zcool.cn/community/01d71e554bb56b000001bf7274a240.jpg";
+                String str = "http://imgsrc.baidu.com/image/c0%3Dpixel_huitu%2C0%2C0%2C294%2C40/sign=91f762232334349b600b66c5a09270a2/30adcbef76094b36187598d4a8cc7cd98d109d20.jpg";
+                String ss = "http://imgsrc.baidu.com/imgad/pic/item/8cb1cb13495409234ab8a9449958d109b3de4933.jpg";
+                String dd = "http://pic.qiantucdn.com/58pic/26/22/21/58c8db915ebaa_1024.jpg";
+                String bb = "http://pic28.photophoto.cn/20130823/0035035065390036_b.jpg";
+                String cc = "http://imgsrc.baidu.com/image/c0%3Dshijue1%2C0%2C0%2C294%2C40/sign=55689fe7dd2a6059461de959405d5eee/242dd42a2834349b075c1dabc3ea15ce36d3be41.jpg";
+                String aa = "http://www.quimg.com/via/user/5_20160729122014654.jpg";
+                contentList.add(s);
+                contentList.add(st);
+                contentList.add(ss);
+                contentList.add(str);
+                contentList.add(ss);
+                contentList.add(dd);
+                contentList.add(bb);
+                contentList.add(cc);
+                contentList.add(ss);
+                contentList.add(aa);
+            } else {
+                String tt = "http://5b0988e595225.cdn.sohucs.com/images/20180421/d0b35cb030fd4fcb905c1043349b2439.jpeg";
+                String oo = "http://img3.imgtn.bdimg.com/it/u=2423163533,2396542910&fm=27&gp=0.jpg";
+                String pp = "http://img5q.duitang.com/uploads/item/201502/10/20150210193233_Ccidc.thumb.700_0.jpeg";
+                contentList.add(tt);
+                contentList.add(oo);
+                contentList.add(pp);
+            }
         }
 
         return contentList;
@@ -185,7 +196,8 @@ public class ScrollActivity extends AppCompatActivity implements SwipeRefreshLay
         mSrollContentView = findViewById(R.id.sroll_content_view);
         mScrollView = findViewById(R.id.sv);
         mLlTitle = findViewById(R.id.ll_title);
-        mScrollView.setTitleAndHead(mLlTitle,mTvTitle);
+        mLabelPager = findViewById(R.id.label_pager);
+        mScrollView.setTitleAndHead(mLlTitle, mTvTitle);
         mGridViewParams = (LinearLayout.LayoutParams) mGridView.getLayoutParams();
         mRefreshLayout.setRefreshing(true);
 
@@ -197,7 +209,7 @@ public class ScrollActivity extends AppCompatActivity implements SwipeRefreshLay
         List<String> imageList = new ArrayList<>();
 
 
-        if (dataType == 1) {
+        if (dataType % 2 == 0) {
             String st = "http://imgsrc.baidu.com/image/c0%3Dpixel_huitu%2C0%2C0%2C294%2C40/sign=79d11a1f0224ab18f41be9775c8283a1/b64543a98226cffc35a0408bb2014a90f603ea05.jpg";
             String s = "http://img.zcool.cn/community/01d71e554bb56b000001bf7274a240.jpg";
             String str = "http://imgsrc.baidu.com/image/c0%3Dpixel_huitu%2C0%2C0%2C294%2C40/sign=91f762232334349b600b66c5a09270a2/30adcbef76094b36187598d4a8cc7cd98d109d20.jpg";
@@ -209,7 +221,7 @@ public class ScrollActivity extends AppCompatActivity implements SwipeRefreshLay
             imageList.add(str);
             imageList.add(s);
 
-        } else if (dataType == 2) {
+        } else {
             String st = "http://v3img.osscdn.ifensi.com/xw_imgs/2016/09/16/ee546900ca3b1.jpg";
             String s = "http://img0.ph.126.net/JdYwZNnoCV40SP-j_tV8Xw==/6631927583791487265.jpg";
             String str = "http://img0.ph.126.net/deHNp2zCuTf4FZZZuVlLnw==/6631761557538249708.jpg";

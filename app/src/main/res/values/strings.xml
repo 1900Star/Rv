@@ -4,4 +4,5 @@
     <string name="shoppingList">购物清单</string>
     <string name="goods">goods</string>
     <string name="commit">结算</string>
+    <string name="product_title">产品</string>
 </resources>
