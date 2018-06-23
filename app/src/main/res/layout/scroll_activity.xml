@@ -54,6 +54,11 @@
                         android:textColor="@color/colorDark"
                         android:textSize="20sp" />
 
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/rv_label"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
                     <com.yibao.recyclerviewdemo.view.MyGridview
                         android:id="@+id/grid_view"
                         android:layout_width="match_parent"
@@ -65,7 +70,7 @@
                         android:gravity="bottom"
                         android:numColumns="4"
                         android:stretchMode="spacingWidth"
-                        android:visibility="visible" />
+                        android:visibility="gone" />
 
                     <android.support.v7.widget.RecyclerView
                         android:id="@+id/rv_flag"
@@ -75,17 +80,17 @@
                 </LinearLayout>
                 <!--</FrameLayout>-->
                 <com.yibao.recyclerviewdemo.widge.LabelPager
+                    android:id="@+id/label_pager"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:id="@+id/label_pager"
                     android:layout_weight="1" />
 
                 <com.yibao.recyclerviewdemo.view.ContentView
                     android:id="@+id/sroll_content_view"
                     android:layout_width="match_parent"
-                    android:visibility="gone"
                     android:layout_height="0dp"
-                    android:layout_weight="1" />
+                    android:layout_weight="1"
+                    android:visibility="gone" />
             </LinearLayout>
         </com.yibao.recyclerviewdemo.view.MyScrollView>
 

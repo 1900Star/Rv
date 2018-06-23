@@ -75,9 +75,9 @@ public abstract class BaseRvAdapter<T>
 
     @Override
     public int getItemViewType(int position) {
-        if (position == getItemCount() - 1) {
-            return TYPE_FOOTER;
-        }
+//        if (position == getItemCount() - 1) {
+//            return TYPE_FOOTER;
+//        }
         return TYPE_ITEM;
     }
 

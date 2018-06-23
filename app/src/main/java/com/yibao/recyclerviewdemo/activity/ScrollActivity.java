@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.AdapterView;
@@ -15,7 +17,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.yibao.recyclerviewdemo.R;
+import com.yibao.recyclerviewdemo.adapter.BaseRvAdapter;
 import com.yibao.recyclerviewdemo.adapter.LabelPagerAdapter;
+import com.yibao.recyclerviewdemo.adapter.LabelRvAdapter;
 import com.yibao.recyclerviewdemo.adapter.MyGridViewAdapter;
 import com.yibao.recyclerviewdemo.bean.UserInfo;
 import com.yibao.recyclerviewdemo.view.BannerView;
@@ -55,6 +59,8 @@ public class ScrollActivity extends AppCompatActivity implements SwipeRefreshLay
     private MyGridViewAdapter mGridViewAdapter;
     private TextView mTvTitle;
     private LabelPager mLabelPager;
+    private RecyclerView mRvLabel;
+    private LabelRvAdapter mLabelRvAdapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -79,6 +85,14 @@ public class ScrollActivity extends AppCompatActivity implements SwipeRefreshLay
 
             }
         });
+        mLabelRvAdapter.setItemListener(new BaseRvAdapter.OnItemListener<UserInfo>() {
+            @Override
+            public void showDetailsView(UserInfo bean) {
+                Toast.makeText(ScrollActivity.this, bean.getUserName()
+                        , Toast.LENGTH_SHORT).show();
+
+            }
+        });
 
     }
 
@@ -98,29 +112,37 @@ public class ScrollActivity extends AppCompatActivity implements SwipeRefreshLay
 
     private void initData(int a, int b) {
         int userSize = getUserInfo(a).size();
-        if (userSize > 4) {
-            if (getUserInfo(a).size() < 9) {
-                mGridViewParams.width = LinearLayout.LayoutParams.MATCH_PARENT;
-                mGridViewParams.height = dip2px(this, 110);
-            } else if (userSize < 13) {
-                mGridViewParams.width = LinearLayout.LayoutParams.MATCH_PARENT;
-                mGridViewParams.height = dip2px(this, 160);
-            } else if (userSize < 17) {
-                mGridViewParams.width = LinearLayout.LayoutParams.MATCH_PARENT;
-                mGridViewParams.height = dip2px(this, 210);
-            } else if (userSize < 21) {
-                mGridViewParams.width = LinearLayout.LayoutParams.MATCH_PARENT;
-                mGridViewParams.height = dip2px(this, 260);
-            }
-            mGridView.setLayoutParams(mGridViewParams);
-        }
+//        if (userSize > 4) {
+//            if (getUserInfo(a).size() < 9) {
+//                mGridViewParams.width = LinearLayout.LayoutParams.MATCH_PARENT;
+//                mGridViewParams.height = dip2px(this, 110);
+//            } else if (userSize < 13) {
+//                mGridViewParams.width = LinearLayout.LayoutParams.MATCH_PARENT;
+//                mGridViewParams.height = dip2px(this, 160);
+//            } else if (userSize < 17) {
+//                mGridViewParams.width = LinearLayout.LayoutParams.MATCH_PARENT;
+//                mGridViewParams.height = dip2px(this, 210);
+//            } else if (userSize < 21) {
+//                mGridViewParams.width = LinearLayout.LayoutParams.MATCH_PARENT;
+//                mGridViewParams.height = dip2px(this, 260);
+//            }
+//            mGridView.setLayoutParams(mGridViewParams);
+//        }
         // Banner
         mScrollBannerView.setData(getImageList(a));
         // InfoView
         mScrollInfoView.setData(getImageList(b));
         // GridView
-        mGridViewAdapter = new MyGridViewAdapter(this, getUserInfo(a));
-        mGridView.setAdapter(mGridViewAdapter);
+//        mGridViewAdapter = new MyGridViewAdapter(this, getUserInfo(a));
+//        mGridView.setAdapter(mGridViewAdapter);
+        mLabelRvAdapter = new LabelRvAdapter(this, getUserInfo(a));
+        StaggeredGridLayoutManager manager = new StaggeredGridLayoutManager(4,
+                StaggeredGridLayoutManager.VERTICAL);
+        manager.setOrientation(StaggeredGridLayoutManager.VERTICAL);
+        mRvLabel.setLayoutManager(manager);
+        mRvLabel.setHasFixedSize(true);
+        mRvLabel.setAdapter(mLabelRvAdapter);
+        mLabelRvAdapter.notifyDataSetChanged();
         // ContentView
 //        mSrollContentView.setData(getContentList(a));
 //        mRefreshLayout.setRefreshing(false);
@@ -132,14 +154,14 @@ public class ScrollActivity extends AppCompatActivity implements SwipeRefreshLay
         mGridView.requestFocus();
         //2.set height
 
-        mScrollView.resetHeight(mGridView, mLabelPager, 165);
+        mScrollView.resetHeight(mRvLabel, mLabelPager, 165);
 
     }
 
     private List<UserInfo> getUserInfo(int ts) {
         ArrayList<UserInfo> mList = new ArrayList<>();
 
-        for (int i = 1; i < 9; i++) {
+        for (int i = 1; i < 10; i++) {
             if (i % 2 == 0) {
                 mList.add(new UserInfo("", ts == 1 ? "O " + i : "新垣结衣 " + i));
             } else {
@@ -198,10 +220,11 @@ public class ScrollActivity extends AppCompatActivity implements SwipeRefreshLay
         mLlTitle = findViewById(R.id.ll_title);
         mLabelPager = findViewById(R.id.label_pager);
         mScrollView.setTitleAndHead(mLlTitle, mTvTitle);
-        mGridViewParams = (LinearLayout.LayoutParams) mGridView.getLayoutParams();
+//        mGridViewParams = (LinearLayout.LayoutParams) mGridView.getLayoutParams();
         mRefreshLayout.setRefreshing(true);
 
 
+        mRvLabel = findViewById(R.id.rv_label);
     }
 
 
