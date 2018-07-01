@@ -38,7 +38,15 @@
                     <com.yibao.recyclerviewdemo.view.BannerView
                         android:id="@+id/scroll_banner_view"
                         android:layout_width="match_parent"
-                        android:layout_height="150dp" />
+                        android:layout_height="150dp"
+                        android:visibility="gone" />
+
+                    <LinearLayout
+                        android:id="@+id/ll_banner_root"
+                        android:layout_width="match_parent"
+                        android:background="#000"
+                        android:layout_height="250dp"
+                        android:orientation="vertical" />
 
                     <com.yibao.recyclerviewdemo.view.InfoView
                         android:id="@+id/scroll_info_view"
@@ -57,7 +65,8 @@
                     <android.support.v7.widget.RecyclerView
                         android:id="@+id/rv_label"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:visibility="gone" />
 
                     <com.yibao.recyclerviewdemo.view.MyGridview
                         android:id="@+id/grid_view"
@@ -70,7 +79,7 @@
                         android:gravity="bottom"
                         android:numColumns="4"
                         android:stretchMode="spacingWidth"
-                        android:visibility="gone" />
+                        android:visibility="visible" />
 
                     <android.support.v7.widget.RecyclerView
                         android:id="@+id/rv_flag"
@@ -101,7 +110,7 @@
             android:layout_gravity="top"
             android:background="#fff"
             android:orientation="horizontal"
-            android:visibility="visible">
+            android:visibility="gone">
 
             <TextView
                 android:id="@+id/tv_title"

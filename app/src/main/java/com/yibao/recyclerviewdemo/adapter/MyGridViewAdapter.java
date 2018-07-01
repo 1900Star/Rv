@@ -37,7 +37,7 @@ public class MyGridViewAdapter extends BaseAdapter {
     public int getCount() {
 
 
-        return mList != null ? mList.size() : 0;
+        return mList != null ? mList.size()-3 : 0;
 
     }
 

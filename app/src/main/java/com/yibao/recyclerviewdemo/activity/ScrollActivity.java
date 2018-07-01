@@ -1,6 +1,7 @@
 package com.yibao.recyclerviewdemo.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -27,6 +28,7 @@ import com.yibao.recyclerviewdemo.view.ContentView;
 import com.yibao.recyclerviewdemo.view.InfoView;
 import com.yibao.recyclerviewdemo.view.MyScrollView;
 import com.yibao.recyclerviewdemo.widge.LabelPager;
+import com.yibao.recyclerviewdemo.widge.TabPagerListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,6 +63,37 @@ public class ScrollActivity extends AppCompatActivity implements SwipeRefreshLay
     private LabelPager mLabelPager;
     private RecyclerView mRvLabel;
     private LabelRvAdapter mLabelRvAdapter;
+    private LinearLayout mBannerRootView;
+    private boolean isChangeData = true;
+    public String[] picUrlArr = {
+            "http://img1.imgtn.bdimg.com/it/u=2791440251,3676180997&fm=214&gp=0.jpg",
+            "http://img0.imgtn.bdimg.com/it/u=697743233,72559105&fm=214&gp=0.jpg",
+            "http://img3.imgtn.bdimg.com/it/u=1414787322,1119406030&fm=214&gp=0.jpg",
+            "http://img.ph.126.net/JDzBlk86dk5RNbEYM5UWQQ==/1531223873306738973.jpg",
+            "http://img2.imgtn.bdimg.com/it/u=848244421,2660255089&fm=214&gp=0.jpg",
+            "http://img1.imgtn.bdimg.com/it/u=1126409661,2553252841&fm=214&gp=0.jpg",
+            "http://img0.imgtn.bdimg.com/it/u=3263430655,576348720&fm=214&gp=0.jpg",
+            "http://img313.ph.126.net/OjdxxrIeB-R0qcPJOR6rkQ==/3675218770911537293.jpg",
+            "http://img.ph.126.net/Jdb5-HJWcg8NsxN4bO3rgw==/3369255471227898647.jpg",
+            "http://img0.ph.126.net/MUS2Yz_NSGzK34R6d-fUeQ==/2856971013713215152.jpg",
+            "http://tupian.enterdesk.com/2012/0818/cyf/03/enter%20%2810%29.jpg"};
+    private String[] arr2 = {
+            "http://cdn.duitang.com/uploads/item/201506/24/20150624181420_Tsx5v.jpeg",
+            "http://ww2.sinaimg.cn/large/6cf3d1b5jw1et8911x2y4j20pk12cn7i.jpg",
+            "http://wx1.sinaimg.cn/mw1024/9ec19de8ly1fbjut77oz7j21kw12oagk.jpg",
+            "http://cdn.duitang.com/uploads/item/201510/29/20151029025711_JNRPa.thumb.700_0.jpeg",
+            "http://img1.imgtn.bdimg.com/it/u=3673481042,1436601449&fm=214&gp=0.jpg",
+            "http://img3.duitang.com/uploads/item/201306/13/20130613091407_RGXSF.thumb.700_0.jpeg",
+            "http://img3.duitang.com/uploads/item/201608/14/20160814113720_CSkfc.jpeg",
+            "http://wx1.sinaimg.cn/large/9ec19de8ly1fdx0ocde2mj20tt18gqcm.jpg",
+            "http://img0.imgtn.bdimg.com/it/u=1138940585,392305322&fm=214&gp=0.jpg",
+            "http://img2.imgtn.bdimg.com/it/u=135876527,302649005&fm=214&gp=0.jpg",
+//            "http://easyread.ph.126.net/ujCavd-AskxBYnwwz5d0tQ==/7916509008757939546.jpg",
+//            "http://img3.duitang.com/uploads/item/201609/06/20160906203951_ZdemH.jpeg",
+//            "http://ww2.sinaimg.cn/large/6cf3d1b5jw1ernzbkv5d0j20pk12cn0j.jpg",
+//            "http://www.sinaimg.cn/dy/slidenews/4_img/2016_48/704_2081109_607584.jpg",
+//            "http://wx3.sinaimg.cn/mw1024/9ec19de8ly1fbjut5cmpvj21kw12r79z.jpg"
+    };
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -81,18 +114,19 @@ public class ScrollActivity extends AppCompatActivity implements SwipeRefreshLay
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 //                initData(position, position);
                 mLabelPager.setCurrentItem(position, false);
-                Toast.makeText(ScrollActivity.this, getUserInfo(1).get(position).getUserName(), Toast.LENGTH_SHORT).show();
-
+                Toast.makeText(ScrollActivity.this, getUserInfo(position).get(position).getUserName(), Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(ScrollActivity.this, LoopPagerActivity.class));
             }
         });
-        mLabelRvAdapter.setItemListener(new BaseRvAdapter.OnItemListener<UserInfo>() {
-            @Override
-            public void showDetailsView(UserInfo bean) {
-                Toast.makeText(ScrollActivity.this, bean.getUserName()
-                        , Toast.LENGTH_SHORT).show();
-
-            }
-        });
+//        mLabelRvAdapter.setItemListener(new BaseRvAdapter.OnItemListener<UserInfo>() {
+//            @Override
+//            public void showDetailsView(UserInfo bean) {
+//                Toast.makeText(ScrollActivity.this, bean.getUserName()
+//                        , Toast.LENGTH_SHORT).show();
+//                startActivity(new Intent(ScrollActivity.this, LoopPagerActivity.class));
+//
+//            }
+//        });
 
     }
 
@@ -102,9 +136,9 @@ public class ScrollActivity extends AppCompatActivity implements SwipeRefreshLay
         mCompositeDisposable.add(Observable.timer(1, TimeUnit.SECONDS).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<Long>() {
             @Override
             public void accept(Long aLong) {
-                initData(2, 1);
-
+                initData(1, 1);
                 mRefreshLayout.setRefreshing(false);
+                isChangeData = !isChangeData;
             }
         }));
 
@@ -112,37 +146,42 @@ public class ScrollActivity extends AppCompatActivity implements SwipeRefreshLay
 
     private void initData(int a, int b) {
         int userSize = getUserInfo(a).size();
-//        if (userSize > 4) {
-//            if (getUserInfo(a).size() < 9) {
-//                mGridViewParams.width = LinearLayout.LayoutParams.MATCH_PARENT;
-//                mGridViewParams.height = dip2px(this, 110);
-//            } else if (userSize < 13) {
-//                mGridViewParams.width = LinearLayout.LayoutParams.MATCH_PARENT;
-//                mGridViewParams.height = dip2px(this, 160);
-//            } else if (userSize < 17) {
-//                mGridViewParams.width = LinearLayout.LayoutParams.MATCH_PARENT;
-//                mGridViewParams.height = dip2px(this, 210);
-//            } else if (userSize < 21) {
-//                mGridViewParams.width = LinearLayout.LayoutParams.MATCH_PARENT;
-//                mGridViewParams.height = dip2px(this, 260);
-//            }
-//            mGridView.setLayoutParams(mGridViewParams);
-//        }
+        if (userSize > 4) {
+            if (getUserInfo(a).size()-3 < 9) {
+                mGridViewParams.width = LinearLayout.LayoutParams.MATCH_PARENT;
+                mGridViewParams.height = dip2px(this, 110);
+            } else if (userSize < 13) {
+                mGridViewParams.width = LinearLayout.LayoutParams.MATCH_PARENT;
+                mGridViewParams.height = dip2px(this, 160);
+            } else if (userSize < 17) {
+                mGridViewParams.width = LinearLayout.LayoutParams.MATCH_PARENT;
+                mGridViewParams.height = dip2px(this, 210);
+            } else if (userSize < 21) {
+                mGridViewParams.width = LinearLayout.LayoutParams.MATCH_PARENT;
+                mGridViewParams.height = dip2px(this, 260);
+            }
+            mGridView.setLayoutParams(mGridViewParams);
+        }
         // Banner
-        mScrollBannerView.setData(getImageList(a));
+//        mScrollBannerView.setData(getImageList(a));
+        TabPagerListener tabPagerListener = new TabPagerListener(this);
+        tabPagerListener.setData(getUserInfo(a));
+        tabPagerListener.startSwitch();
+        mBannerRootView.addView(tabPagerListener.view);
         // InfoView
         mScrollInfoView.setData(getImageList(b));
         // GridView
-//        mGridViewAdapter = new MyGridViewAdapter(this, getUserInfo(a));
-//        mGridView.setAdapter(mGridViewAdapter);
-        mLabelRvAdapter = new LabelRvAdapter(this, getUserInfo(a));
-        StaggeredGridLayoutManager manager = new StaggeredGridLayoutManager(4,
-                StaggeredGridLayoutManager.VERTICAL);
-        manager.setOrientation(StaggeredGridLayoutManager.VERTICAL);
-        mRvLabel.setLayoutManager(manager);
-        mRvLabel.setHasFixedSize(true);
-        mRvLabel.setAdapter(mLabelRvAdapter);
-        mLabelRvAdapter.notifyDataSetChanged();
+        mGridViewAdapter = new MyGridViewAdapter(this, getUserInfo(a));
+        mGridView.setAdapter(mGridViewAdapter);
+        // 用RecyclerView显示栏目
+//        mLabelRvAdapter = new LabelRvAdapter(this, getUserInfo(a));
+//        StaggeredGridLayoutManager manager = new StaggeredGridLayoutManager(4,
+//                StaggeredGridLayoutManager.VERTICAL);
+//        manager.setOrientation(StaggeredGridLayoutManager.VERTICAL);
+//        mRvLabel.setLayoutManager(manager);
+//        mRvLabel.setHasFixedSize(true);
+//        mRvLabel.setAdapter(mLabelRvAdapter);
+//        mLabelRvAdapter.notifyDataSetChanged();
         // ContentView
 //        mSrollContentView.setData(getContentList(a));
 //        mRefreshLayout.setRefreshing(false);
@@ -154,20 +193,15 @@ public class ScrollActivity extends AppCompatActivity implements SwipeRefreshLay
         mGridView.requestFocus();
         //2.set height
 
-        mScrollView.resetHeight(mRvLabel, mLabelPager, 165);
+        mScrollView.resetHeight(mGridView, mLabelPager, 165);
 
     }
 
     private List<UserInfo> getUserInfo(int ts) {
         ArrayList<UserInfo> mList = new ArrayList<>();
 
-        for (int i = 1; i < 10; i++) {
-            if (i % 2 == 0) {
-                mList.add(new UserInfo("", ts == 1 ? "O " + i : "新垣结衣 " + i));
-            } else {
-                mList.add(new UserInfo("", ts == 1 ? "R1 " + i : "Find " + i));
-
-            }
+        for (int i = 0; i < 9; i++) {
+            mList.add(new UserInfo(isChangeData ? arr2[i] : picUrlArr[i], "新垣结衣 " + i));
         }
         return mList;
     }
@@ -220,11 +254,10 @@ public class ScrollActivity extends AppCompatActivity implements SwipeRefreshLay
         mLlTitle = findViewById(R.id.ll_title);
         mLabelPager = findViewById(R.id.label_pager);
         mScrollView.setTitleAndHead(mLlTitle, mTvTitle);
-//        mGridViewParams = (LinearLayout.LayoutParams) mGridView.getLayoutParams();
-        mRefreshLayout.setRefreshing(true);
-
-
+        mGridViewParams = (LinearLayout.LayoutParams) mGridView.getLayoutParams();
+        mRefreshLayout.setRefreshing(false);
         mRvLabel = findViewById(R.id.rv_label);
+        mBannerRootView = findViewById(R.id.ll_banner_root);
     }
 
 

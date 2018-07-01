@@ -6,13 +6,15 @@ import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.LinearLayout;
 
 import com.yibao.recyclerviewdemo.R;
 import com.yibao.recyclerviewdemo.adapter.MyPagerAdapter;
-import com.yibao.recyclerviewdemo.adapter.VpAdapter;
+import com.yibao.recyclerviewdemo.adapter.SwitchImageVPAdapter;
+import com.yibao.recyclerviewdemo.bean.UserInfo;
+import com.yibao.recyclerviewdemo.widge.BannerPager;
+import com.yibao.recyclerviewdemo.widge.TabPagerListener;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -30,24 +32,24 @@ import io.reactivex.schedulers.Schedulers;
  * @ Time:   2018/6/4/ 22:21
  * @ Des:    //TODO
  */
-public class BannerView extends LinearLayout {
+public class BannerLoopingView extends LinearLayout {
 
-    private ViewPager mVp;
+    private BannerPager mVp;
     private int num = 1;
     private CompositeDisposable mDisposable;
 
-    public BannerView(Context context) {
+    public BannerLoopingView(Context context) {
         this(context, null);
     }
 
-    public BannerView(Context context, @Nullable AttributeSet attrs) {
+    public BannerLoopingView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         initView(context);
     }
 
     private void initView(Context context) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_vp, this, true);
-        mVp = view.findViewById(R.id.vp);
+        View view = LayoutInflater.from(context).inflate(R.layout.loop_vp, this, true);
+        mVp = view.findViewById(R.id.banner_pager);
         mDisposable = new CompositeDisposable();
         initListener();
     }
@@ -57,22 +59,10 @@ public class BannerView extends LinearLayout {
 
     }
 
-    @SuppressLint("CheckResult")
-    public void setData(final List<String> list) {
-        mDisposable.clear();
-        MyPagerAdapter pagerAdapter = new MyPagerAdapter(getContext(), list);
-        mVp.setAdapter(pagerAdapter);
-        pagerAdapter.notifyDataSetChanged();
-        mDisposable.add(Observable.interval(4, TimeUnit.SECONDS).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<Long>() {
-            @Override
-            public void accept(Long aLong) {
-                num++;
-                if (num > list.size()) {
-                    num = 1;
-                }
-                mVp.setCurrentItem(num);
-            }
-        }));
+    public void setData(final List<UserInfo> list) {
+        TabPagerListener tabPagerListener = new TabPagerListener(getContext());
+        tabPagerListener.setData(list);
+        mVp.setTabPager(tabPagerListener);
 
     }
 }
