@@ -6,7 +6,7 @@ import android.view.View;
 
 import com.yibao.recyclerviewdemo.bean.Beans;
 import com.yibao.recyclerviewdemo.R;
-import com.yibao.recyclerviewdemo.view.BannerView;
+import com.yibao.recyclerviewdemo.view.BannerViews;
 import com.yibao.recyclerviewdemo.view.ContentView;
 import com.yibao.recyclerviewdemo.view.InfoView;
 
@@ -51,9 +51,9 @@ public class MyAdapterTest extends BaseRvAdapter<Beans> {
         int position = holder.getAdapterPosition();
         if (holder instanceof HolderC) {
             HolderC holderC = (HolderC) holder;
-            BannerView bannerView = holderC.mBannerView;
-            if (bannerView != null) {
-                bannerView.setData(beans.getImageList());
+            BannerViews bannerViews = holderC.mBannerViews;
+            if (bannerViews != null) {
+                bannerViews.setData(beans.getImageList());
             }
         } else if (holder instanceof HolderA) {
             HolderA holderA = (HolderA) holder;
@@ -93,11 +93,11 @@ public class MyAdapterTest extends BaseRvAdapter<Beans> {
 
 
     static class HolderC extends RecyclerView.ViewHolder {
-        BannerView mBannerView;
+        BannerViews mBannerViews;
 
         public HolderC(View itemView) {
             super(itemView);
-            mBannerView = itemView.findViewById(R.id.banner_view);
+            mBannerViews = itemView.findViewById(R.id.banner_view);
         }
     }
 

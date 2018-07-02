@@ -10,9 +10,6 @@ import com.yibao.recyclerviewdemo.bean.UserInfo;
 
 import java.util.List;
 
-/**
- * Created by ywf on 2016/11/12.
- */
 public class SwitchImageVPAdapter extends PagerAdapter {
     private List<UserInfo> mList;
     private List<ImageView> mImageViews;

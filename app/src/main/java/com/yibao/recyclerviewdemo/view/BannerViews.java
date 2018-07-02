@@ -6,13 +6,11 @@ import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.LinearLayout;
 
 import com.yibao.recyclerviewdemo.R;
 import com.yibao.recyclerviewdemo.adapter.MyPagerAdapter;
-import com.yibao.recyclerviewdemo.adapter.VpAdapter;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -30,17 +28,17 @@ import io.reactivex.schedulers.Schedulers;
  * @ Time:   2018/6/4/ 22:21
  * @ Des:    //TODO
  */
-public class BannerView extends LinearLayout {
+public class BannerViews extends LinearLayout {
 
     private ViewPager mVp;
     private int num = 1;
     private CompositeDisposable mDisposable;
 
-    public BannerView(Context context) {
+    public BannerViews(Context context) {
         this(context, null);
     }
 
-    public BannerView(Context context, @Nullable AttributeSet attrs) {
+    public BannerViews(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         initView(context);
     }

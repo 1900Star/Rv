@@ -8,22 +8,25 @@ import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.TypedValue;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.yibao.recyclerviewdemo.R;
-import com.yibao.recyclerviewdemo.adapter.BaseRvAdapter;
 import com.yibao.recyclerviewdemo.adapter.LabelPagerAdapter;
 import com.yibao.recyclerviewdemo.adapter.LabelRvAdapter;
 import com.yibao.recyclerviewdemo.adapter.MyGridViewAdapter;
 import com.yibao.recyclerviewdemo.bean.UserInfo;
-import com.yibao.recyclerviewdemo.view.BannerView;
+import com.yibao.recyclerviewdemo.loop.BannerView;
+import com.yibao.recyclerviewdemo.view.BannerViews;
 import com.yibao.recyclerviewdemo.view.ContentView;
 import com.yibao.recyclerviewdemo.view.InfoView;
 import com.yibao.recyclerviewdemo.view.MyScrollView;
@@ -48,7 +51,7 @@ import io.reactivex.schedulers.Schedulers;
  * @ Des:    //TODO
  */
 public class ScrollActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
-    private BannerView mScrollBannerView;
+    private BannerViews mScrollBannerViews;
     private InfoView mScrollInfoView;
     private GridView mGridView;
     private ContentView mSrollContentView;
@@ -94,6 +97,7 @@ public class ScrollActivity extends AppCompatActivity implements SwipeRefreshLay
 //            "http://www.sinaimg.cn/dy/slidenews/4_img/2016_48/704_2081109_607584.jpg",
 //            "http://wx3.sinaimg.cn/mw1024/9ec19de8ly1fbjut5cmpvj21kw12r79z.jpg"
     };
+    private BannerView mBannerView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -144,10 +148,23 @@ public class ScrollActivity extends AppCompatActivity implements SwipeRefreshLay
 
     }
 
+    public static class BannerViewFactory implements BannerView.ViewFactory<UserInfo> {
+        @Override
+        public View create(UserInfo item, int position, ViewGroup container) {
+            ImageView iv = new ImageView(container.getContext());
+            Glide.with(container.getContext()
+                    .getApplicationContext())
+                    .load(item.getImageUrl())
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .into(iv);
+            return iv;
+        }
+    }
+
     private void initData(int a, int b) {
         int userSize = getUserInfo(a).size();
         if (userSize > 4) {
-            if (getUserInfo(a).size()-3 < 9) {
+            if (getUserInfo(a).size() - 3 < 9) {
                 mGridViewParams.width = LinearLayout.LayoutParams.MATCH_PARENT;
                 mGridViewParams.height = dip2px(this, 110);
             } else if (userSize < 13) {
@@ -163,11 +180,18 @@ public class ScrollActivity extends AppCompatActivity implements SwipeRefreshLay
             mGridView.setLayoutParams(mGridViewParams);
         }
         // Banner
-//        mScrollBannerView.setData(getImageList(a));
+        mScrollBannerViews.setData(getImageList(a));
         TabPagerListener tabPagerListener = new TabPagerListener(this);
         tabPagerListener.setData(getUserInfo(a));
         tabPagerListener.startSwitch();
         mBannerRootView.addView(tabPagerListener.view);
+
+
+        mBannerView.setViewFactory(new BannerViewFactory());
+        mBannerView.setDataList(getUserInfo(a));
+        mBannerView.setTitleVisible(false);
+        mBannerView.setDuration(null,200);
+        mBannerView.start();
         // InfoView
         mScrollInfoView.setData(getImageList(b));
         // GridView
@@ -244,8 +268,9 @@ public class ScrollActivity extends AppCompatActivity implements SwipeRefreshLay
     }
 
     private void initView() {
+        mBannerView = findViewById(R.id.banner2);
         mRefreshLayout = findViewById(R.id.swiperefresh);
-        mScrollBannerView = findViewById(R.id.scroll_banner_view);
+        mScrollBannerViews = findViewById(R.id.scroll_banner_view);
         mTvTitle = findViewById(R.id.tv_title);
         mScrollInfoView = findViewById(R.id.scroll_info_view);
         mGridView = findViewById(R.id.grid_view);

@@ -4,7 +4,7 @@
     android:layout_height="180dp"
     android:orientation="vertical">
 
-    <com.yibao.recyclerviewdemo.view.BannerView
+    <com.yibao.recyclerviewdemo.view.BannerViews
         android:id="@+id/banner_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
